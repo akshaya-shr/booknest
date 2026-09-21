@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BookNest - Online Book Shop</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #222;
+        }
+
+        /* NAVBAR */
+        nav {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: bold;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 25px;
+            font-weight: bold;
+        }
+
+        /* HERO */
+        .hero {
+            background: linear-gradient(135deg, #eef2ff, #f5f3ff);
+            padding: 65px 7%;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            color: #312e81;
+            margin-bottom: 12px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 25px;
+        }
+
+        .search-box {
+            width: 80%;
+            max-width: 650px;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            outline: none;
+        }
+
+        /* CATEGORIES */
+        .categories {
+            text-align: center;
+            padding: 30px 5% 10px;
+        }
+
+        .categories h2 {
+            margin-bottom: 20px;
+            color: #312e81;
+        }
+
+        .category-btn {
+            border: none;
+            background: white;
+            color: #4f46e5;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .category-btn:hover,
+        .category-btn.active {
+            background: #4f46e5;
+            color: white;
+        }
+
+        /* BOOK SECTION */
+        .books-section {
+            padding: 35px 7% 60px;
+        }
+
+        .books-section h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #312e81;
+        }
+
+        .books {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+        /* BOOK CARD */
+        .book-card {
+            background: white;
+            border-radius: 15px;
+            padding: 18px;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+            transition: 0.3s;
+            text-align: center;
+        }
+
+        .book-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        /* BOOK IMAGE */
+        .book-cover {
+            width: 150px;
+            height: 210px;
+            margin: 0 auto 18px;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 7px 15px rgba(0,0,0,0.25);
+        }
+
+        .book-cover svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .book-card h3 {
+            font-size: 18px;
+            margin-bottom: 7px;
+        }
+
+        .author {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .rating {
+            color: #f59e0b;
+            margin-bottom: 8px;
+        }
+
+        .price {
+            color: #16a34a;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .cart-btn {
+            width: 100%;
+            padding: 11px;
+            border: none;
+            border-radius: 8px;
+            background: #4f46e5;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .cart-btn:hover {
+            background: #3730a3;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #1e1b4b;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                padding: 15px 4%;
+            }
+
+            nav a {
+                margin-left: 10px;
+                font-size: 14px;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .search-box {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav>
+    <div class="logo">📚 BookNest</div>
+
+    <div>
+        <a href="index.html">Home</a>
+        <a href="cart.html">Cart 🛒 <span id="cartCount">0</span></a>
+    </div>
+</nav>
+
+
+<!-- HERO -->
+<section class="hero">
+
+    <h1>Welcome to BookNest 📚</h1>
+
+    <p id="welcomeText">
+        Discover your next favourite book.
+    </p>
+
+    <input
+        type="text"
+        id="searchInput"
+        class="search-box"
+        placeholder="🔍 Search books or authors..."
+        onkeyup="searchBooks()"
+    >
+
+</section>
+
+
+<!-- CATEGORIES -->
+<section class="categories">
+
+    <h2>Browse Categories</h2>
+
+    <button class="category-btn active"
+            onclick="filterCategory('All', this)">
+        All Books
+    </button>
+
+    <button class="category-btn"
+            onclick="filterCategory('Fiction', this)">
+        Fiction
+    </button>
+
+    <button class="category-btn"
+            onclick="filterCategory('Self-Help', this)">
+        Self-Help
+    </button>
+
+    <button class="category-btn"
+            onclick="filterCategory('Business', this)">
+        Business
+    </button>
+
+    <button class="category-btn"
+            onclick="filterCategory('Romance', this)">
+        Romance
+    </button>
+
+</section>
+
+
+<!-- BOOKS -->
+<section class="books-section">
+
+    <h2 id="booksHeading">Popular Books</h2>
+
+<p id="resultInfo" style="
+    text-align:center;
+    color:#6b7280;
+    margin-top:-18px;
+    margin-bottom:25px;
+"></p>
+
+    <div class="books" id="bookContainer">
+
+
+        <!-- BOOK 1 -->
+        <div class="book-card"
+             data-category="Self-Help"
+             data-title="Atomic Habits"
+             data-author="James Clear">
+
+            <div class="book-cover">
+
+                <svg viewBox="0 0 150 210"
+                     xmlns="http://www.w3.org/2000/svg">
+
+                    <rect width="150"
+                          height="210"
+                          fill="#dbeafe"/>
+
+                    <rect x="10"
+                          y="10"
+                          width="130"
+                          height="190"
+                          rx="5"
+                          fill="#2563eb"/>
+
+                    <circle cx="75"
+                            cy="65"
+                            r="28"
+                            fill="#bfdbfe"/>
+
+                    <text x="75"
+                          y="110"
+                          text-anchor="middle"
+                          fill="white"
+                          font-size="18"
+                          font-weight="bold">
+                        ATOMIC
+                    </text>
+
+                    <text x="75"
+                          y="132"
+                          text-anchor="middle"
+                          fill="white"
+                          font-size="18"
+                          font-weight="bold">
+                        HABITS
+                    </text>
+
+                    <text x="75"
+                          y="170"
+                          text-anchor="middle"
+                          fill="#dbeafe"
+                          font-size="10">
+                        JAMES CLEAR
+                    </text>
+
+                </svg>
+
+            </div>
+
+            <h3>Atomic Habits</h3>
+
+            <p class="author">James Clear</p>
+
+            <p class="rating">★★★★★</p>
+
+            <p class="price">₹499</p>
+
+            <button class="cart-btn"
+                    onclick="addToCart('Atomic Habits')">
+                Add to Cart
+            </button>
+
+        </div>
+
+
+        <!-- BOOK 2 -->
+        <div class="book-card"
+             data-category="Fiction"
+             data-title="The Alchemist"
+             data-author="Paulo Coelho">
+
+            <div class="book-cover">
+
+                <svg viewBox="0 0 150 210"
+                     xmlns="http://www.w3.org/2000/svg">
+
+                    <rect width="150"
+                          height="210"
+                          fill="#fef3c7"/>
+
+                    <rect x="10"
+                          y="10"
+                          width="130"
+                          height="190"
+                          rx="5"
+                          fill="#92400e"/>
+
+                    <circle cx="75"
+                            cy="70"
+                            r="30"
+                            fill="#fbbf24"/>
+
+                    <path d="M35 150 Q75 105 115 150"
+                          fill="none"
+                          stroke="#fde68a"
+                          stroke-width="5"/>
+
+                    <text x="75"
+                          y="110"
+                          text-anchor="middle"
+                          fill="white"
+                          font-size="16"
+                          font-weight="bold">
+                        THE
+                    </text>
+
+                    <text x="75"
+                          y="130"
+                          text-anchor="middle"
+                          fill="white"
+                          font-size="18"
+                          font-weight="bold">
+                        ALCHEMIST
+                    </text>
+
+                    <text x="75"
+                          y="175"
+                          text-anchor="middle"
+                          fill="#fde68a"
+                          font-size="9">
+                        PAULO COELHO
+                    </text>
+
+                </svg>
+
+            </div>
+
+            <h3>The Alchemist</h3>
+
+            <p class="author">Paulo Coelho</p>
+
+            <p class="rating">★★★★★</p>
+
+            <p class="price">₹299</p>
+
+            <button class="cart-btn"
+                    onclick="addToCart('The Alchemist')">
+                Add to Cart
+            </button>
+
+        </div>
+
+
+        <!-- BOOK 3 -->
+        <div class="book-card"
+             data-category="Business"
+             data-title="Rich Dad Poor Dad"
+             data-author="Robert Kiyosaki">
+
+            <div class="book-cover">
+
+                <svg viewBox="0 0 150 210"
+                     xmlns="http://www.w3.org/2000/svg">
+
+                    <rect width="150"
+                          height="210"
+                          fill="#fee2e2"/>
+
+                    <rect x="10"
+                          y="10"
+                          width="130"
+                          height="190"
+                          rx="5"
+                          fill="#b91c1c"/>
+
+                    <circle cx="50"
+                            cy="60"
+                            r="20"
+                            fill="#fecaca"/>
+
+                    <circle cx="100"
+                            cy="60"
+                            r="20"
+                            fill="#fca5a5"/>
+
+                    <text x="75"
+                          y="105"
+                          text-anchor="middle"
+                          fill="white"
+                          font-size="15"
+                          font-weight="bold">
+                        RICH DAD
+                    </text>
+
+                    <text x="75"
+                          y="127"
+                          text-anchor="middle"
+                          fill="#fee2e2"
+                          font-size="15"
+                          font-weight="bold">
+                        POOR DAD
+                    </text>
+
+                    <text x="75"
+                          y="170"
+                          text-anchor="middle"
+                          fill="white"
+                          font-size="9">
+                        ROBERT KIYOSAKI
+                    </text>
+
+                </svg>
+
+            </div>
+
+            <h3>Rich Dad Poor Dad</h3>
+
+            <p class="author">Robert Kiyosaki</p>
+
+            <p class="rating">★★★★☆</p>
+
+            <p class="price">₹399</p>
+
+            <button class="cart-btn"
+                    onclick="addToCart('Rich Dad Poor Dad')">
+                Add to Cart
+            </button>
+
+        </div>
+
+
+        <!-- BOOK 4 -->
+        <div class="book-card"
+             data-category="Self-Help"
+             data-title="Ikigai"
+             data-author="Hector Garcia">
+
+            <div class="book-cover">
+
+                <svg viewBox="0 0 150 210"
+                     xmlns="http://www.w3.org/2000/svg">
+
+                    <rect width="150"
+                          height="210"
+                          fill="#dcfce7"/>
+
+                    <rect x="10"
+                          y="10"
+                          width="130"
+                          height="190"
+                          rx="5"
+                          fill="#15803d"/>
+
+                    <circle cx="75"
+                            cy="70"
+                            r="32"
+                            fill="#86efac"/>
+
+                    <circle cx="75"
+                            cy="70"
+                            r="17"
+                            fill="#15803d"/>
+
+                    <text x="75"
+                          y="115"
+                          text-anchor="middle"
+                          fill="white"
+                          font-size="25"
+                          font-weight="bold">
+                        IKIGAI
+                    </text>
+
+                    <text x="75"
+                          y="145"
+                          text-anchor="middle"
+                          fill="#dcfce7"
+                          font-size="9">
+                        THE JAPANESE SECRET
+                    </text>
+
+                    <text x="75"
+                          y="175"
+                          text-anchor="middle"
+                          fill="white"
+                          font-size="8">
+                        HECTOR GARCIA
+                    </text>
+
+                </svg>
+
+            </div>
+
+            <h3>Ikigai</h3>
+
+            <p class="author">Hector Garcia</p>
+
+            <p class="rating">★★★★☆</p>
+
+            <p class="price">₹349</p>
+
+            <button class="cart-btn"
+                    onclick="addToCart('Ikigai')">
+                Add to Cart
+            </button>
+
+        </div>
+
+
+        <!-- BOOK 5 -->
+        <div class="book-card"
+             data-category="Romance"
+             data-title="Pride and Prejudice"
+             data-author="Jane Austen">
+
+            <div class="book-cover">
+
+                <svg viewBox="0 0 150 210"
+                     xmlns="http://www.w3.org/2000/svg">
+
+                    <rect width="150"
+                          height="210"
+                          fill="#fce7f3"/>
+
+                    <rect x="10"
+                          y="10"
+                          width="130"
+                          height="190"
+                          rx="5"
+                          fill="#be185d"/>
+
+                    <path d="M75 45
+                             C60 25,30 45,75 85
+                             C120 45,90 25,75 45Z"
+                          fill="#fbcfe8"/>
+
+                    <text x="75"
+                          y="115"
+                          text-anchor="middle"
+                          fill="white"
+                          font-size="14"
+                          font-weight="bold">
+                        PRIDE AND
+                    </text>
+
+                    <text x="75"
+                          y="135"
+                          text-anchor="middle"
+                          fill="white"
+                          font-size="16"
+                          font-weight="bold">
+                        PREJUDICE
+                    </text>
+
+                    <text x="75"
+                          y="175"
+                          text-anchor="middle"
+                          fill="#fce7f3"
+                          font-size="9">
+                        JANE AUSTEN
+                    </text>
+
+                </svg>
+
+            </div>
+
+            <h3>Pride and Prejudice</h3>
+
+            <p class="author">Jane Austen</p>
+
+            <p class="rating">★★★★★</p>
+
+            <p class="price">₹279</p>
+
+            <button class="cart-btn"
+                    onclick="addToCart('Pride and Prejudice')">
+                Add to Cart
+            </button>
+
+        </div>
+
+
+        <!-- BOOK 6 -->
+        <div class="book-card"
+             data-category="Fiction"
+             data-title="The Hobbit"
+             data-author="J.R.R. Tolkien">
+
+            <div class="book-cover">
+
+                <svg viewBox="0 0 150 210"
+                     xmlns="http://www.w3.org/2000/svg">
+
+                    <rect width="150"
+                          height="210"
+                          fill="#fef9c3"/>
+
+                    <rect x="10"
+                          y="10"
+                          width="130"
+                          height="190"
+                          rx="5"
+                          fill="#365314"/>
+
+                    <circle cx="75"
+                            cy="68"
+                            r="35"
+                            fill="#a3e635"/>
+
+                    <path d="M45 125 Q75 95 105 125"
+                          fill="none"
+                          stroke="#fde047"
+                          stroke-width="6"/>
+
+                    <text x="75"
+                          y="150"
+                          text-anchor="middle"
+                          fill="white"
+                          font-size="20"
+                          font-weight="bold">
+                        THE HOBBIT
+                    </text>
+
+                    <text x="75"
+                          y="178"
+                          text-anchor="middle"
+                          fill="#ecfccb"
+                          font-size="8">
+                        J.R.R. TOLKIEN
+                    </text>
+
+                </svg>
+
+            </div>
+
+            <h3>The Hobbit</h3>
+
+            <p class="author">J.R.R. Tolkien</p>
+
+            <p class="rating">★★★★★</p>
+
+            <p class="price">₹449</p>
+
+            <button class="cart-btn"
+                    onclick="addToCart('The Hobbit')">
+                Add to Cart
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- FOOTER -->
+<footer>
+    <p>© 2026 BookNest. All Rights Reserved.</p>
+</footer>
+
+
+<script>
+
+    /* LOGIN CHECK */
+
+    const email = localStorage.getItem("booknestEmail");
+
+    if (!email) {
+        window.location.href = "login.html";
+    } else {
+        document.getElementById("welcomeText").innerText =
+            "Welcome back! Explore our collection, " + email;
+    }
+
+
+    /* CART */
+
+    let cartCount = 0;
+
+    function addToCart(bookName) {
+
+
+    let cart = JSON.parse(
+        localStorage.getItem("booknestCart")
+    ) || [];
+
+    const books = {
+        "Atomic Habits": {
+            title: "Atomic Habits",
+            author: "James Clear",
+            price: 499
+        },
+        "The Alchemist": {
+            title: "The Alchemist",
+            author: "Paulo Coelho",
+            price: 299
+        },
+        "Rich Dad Poor Dad": {
+            title: "Rich Dad Poor Dad",
+            author: "Robert Kiyosaki",
+            price: 399
+        },
+        "Ikigai": {
+            title: "Ikigai",
+            author: "Hector Garcia",
+            price: 349
+        },
+        "Pride and Prejudice": {
+            title: "Pride and Prejudice",
+            author: "Jane Austen",
+            price: 279
+        },
+        "The Hobbit": {
+            title: "The Hobbit",
+            author: "J.R.R. Tolkien",
+            price: 449
+        }
+    };
+
+    cart.push(books[bookName]);
+
+    localStorage.setItem(
+        "booknestCart",
+        JSON.stringify(cart)
+    );
+
+    cartCount = cart.length;
+
+    document.getElementById("cartCount").innerText = cartCount;
+
+    alert(bookName + " added to cart! 🛒");
+}
+    
+
+    /* CATEGORY FILTER */
+
+    let selectedCategory = "All";
+
+    function filterCategory(category, button) {
+
+        selectedCategory = category;
+
+        document.querySelectorAll(".category-btn")
+            .forEach(btn => btn.classList.remove("active"));
+
+        button.classList.add("active");
+
+        applyFilters();
+    }
+
+
+    /* SEARCH */
+
+    function searchBooks() {
+
+    const searchText =
+        document.getElementById("searchInput").value.trim();
+
+    const heading =
+        document.getElementById("booksHeading");
+
+    const resultInfo =
+        document.getElementById("resultInfo");
+
+    const bookContainer =
+        document.getElementById("bookContainer");
+
+    if (searchText === "") {
+
+        heading.innerText = "Popular Books";
+        resultInfo.innerText = "";
+
+        applyFilters();
+        return;
+    }
+
+    heading.innerText =
+        'Search Results for "' + searchText + '"';
+
+    resultInfo.innerText = "Searching books...";
+
+    fetch(
+        "https://openlibrary.org/search.json?q=" +
+        encodeURIComponent(searchText) +
+        "&limit=24"
+    )
+    .then(response => response.json())
+    .then(data => {
+
+        const books = data.docs || [];
+
+        bookContainer.innerHTML = "";
+
+        if (books.length === 0) {
+
+            resultInfo.innerText = "No books found.";
+            return;
+        }
+
+        resultInfo.innerText =
+            books.length + " book(s) found";
+
+        books.forEach(book => {
+
+            const title =
+                book.title || "Unknown Title";
+
+            const author =
+                book.author_name
+                    ? book.author_name[0]
+                    : "Unknown Author";
+
+            const year =
+                book.first_publish_year || "N/A";
+
+            const cover =
+                book.cover_i
+                    ? "https://covers.openlibrary.org/b/id/" +
+                      book.cover_i +
+                      "-M.jpg"
+                    : "";
+
+            const card =
+                document.createElement("div");
+
+            card.className = "book-card";
+
+            card.innerHTML = `
+
+                <div class="book-cover">
+
+                    ${
+                        cover
+                        ? `<img src="${cover}"
+                               alt="${title}"
+                               style="width:100%;height:100%;object-fit:cover;">`
+                        : `<div style="
+                                height:100%;
+                                display:flex;
+                                align-items:center;
+                                justify-content:center;
+                                font-size:50px;
+                            ">📚</div>`
+                    }
+
+                </div>
+
+                <h3>${title}</h3>
+
+                <p class="author">${author}</p>
+
+                <p>Published: ${year}</p>
+
+                <p class="price">₹399</p>
+
+            `;
+
+            bookContainer.appendChild(card);
+        });
+
+    })
+    .catch(error => {
+
+        console.error(error);
+
+        resultInfo.innerText =
+            "Unable to load books. Please try again.";
+    });
+}
+    /* FILTER + SEARCH */
+
+    function applyFilters() {
+
+        const searchText =
+            document.getElementById("searchInput")
+                .value
+                .toLowerCase();
+
+        const books =
+            document.querySelectorAll(".book-card");
+
+        books.forEach(book => {
+
+            const category =
+                book.dataset.category;
+
+            const title =
+                book.dataset.title.toLowerCase();
+
+            const author =
+                book.dataset.author.toLowerCase();
+
+            const categoryMatch =
+                selectedCategory === "All" ||
+                category === selectedCategory;
+
+            const searchMatch =
+                title.includes(searchText) ||
+                author.includes(searchText);
+
+            if (categoryMatch && searchMatch) {
+                book.style.display = "block";
+            } else {
+                book.style.display = "none";
+            }
+
+        });
+    }
+
+</script>
+
+</body>
+</html>
