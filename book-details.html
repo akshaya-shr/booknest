@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Book Details - BookNest</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #222;
+        }
+
+        nav {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: bold;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .details-card {
+            background: white;
+            border-radius: 18px;
+            padding: 35px;
+            display: flex;
+            gap: 45px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .book-image {
+            width: 260px;
+            min-width: 260px;
+            height: 360px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 25px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .book-image h2 {
+            font-size: 28px;
+        }
+
+        .info h1 {
+            font-size: 35px;
+            color: #312e81;
+            margin-bottom: 12px;
+        }
+
+        .author {
+            color: #666;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .rating {
+            color: #f59e0b;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .price {
+            color: #16a34a;
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .description {
+            line-height: 1.7;
+            color: #555;
+            margin-bottom: 25px;
+        }
+
+        .cart-btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            background: #4f46e5;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .cart-btn:hover {
+            background: #3730a3;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 25px;
+            text-decoration: none;
+            color: #4f46e5;
+            font-weight: bold;
+        }
+
+        @media (max-width: 700px) {
+            .details-card {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .info {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">📚 BookNest</div>
+
+    <div>
+        <a href="index.html">Home</a>
+        <a href="cart.html">Cart 🛒</a>
+    </div>
+</nav>
+
+
+<div class="container">
+
+    <div class="details-card">
+
+        <div class="book-image">
+            <h2 id="bookTitle">Atomic Habits</h2>
+        </div>
+
+        <div class="info">
+
+            <h1 id="title">Atomic Habits</h1>
+
+            <p class="author">
+                By <span id="author">James Clear</span>
+            </p>
+
+            <p class="rating">
+                ★★★★★
+            </p>
+
+            <p class="price" id="price">
+                ₹499
+            </p>
+
+            <p class="description">
+                Atomic Habits is a practical guide to building good
+                habits and breaking bad ones. It explains how small,
+                consistent changes can create remarkable results over time.
+            </p>
+
+            <button class="cart-btn"
+                    onclick="addToCart()">
+                🛒 Add to Cart
+            </button>
+
+        </div>
+
+    </div>
+
+    <a href="index.html" class="back-btn">
+        ← Back to Books
+    </a>
+
+</div>
+
+
+<script>
+
+    function addToCart() {
+
+        let cart = JSON.parse(
+            localStorage.getItem("booknestCart")
+        ) || [];
+
+        const book = {
+            title: "Atomic Habits",
+            author: "James Clear",
+            price: 499
+        };
+
+        cart.push(book);
+
+        localStorage.setItem(
+            "booknestCart",
+            JSON.stringify(cart)
+        );
+
+        alert("Atomic Habits added to cart! 🛒");
+
+        window.location.href = "cart.html";
+    }
+
+</script>
+
+</body>
+</html>
