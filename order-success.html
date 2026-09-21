@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BookNest | Order Successful</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #e0f2fe, #eef2ff, #f5f3ff);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .success-card {
+            width: 100%;
+            max-width: 650px;
+            background: white;
+            padding: 50px 35px;
+            border-radius: 28px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+        }
+
+        .check {
+            width: 95px;
+            height: 95px;
+            margin: 0 auto 25px;
+            border-radius: 50%;
+            background: #dcfce7;
+            color: #16a34a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 52px;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: #111827;
+            margin-bottom: 15px;
+            font-size: 34px;
+        }
+
+        .message {
+            color: #6b7280;
+            font-size: 17px;
+            line-height: 1.7;
+        }
+
+        .order-box {
+            margin: 30px 0;
+            padding: 25px;
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            border-radius: 18px;
+        }
+
+        .order-box p {
+            margin: 8px 0;
+            color: #4b5563;
+        }
+
+        .order-id {
+            margin: 10px 0;
+            color: #2563eb;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            margin-top: 28px;
+        }
+
+        .btn {
+            text-decoration: none;
+            padding: 14px 25px;
+            border-radius: 12px;
+            font-weight: bold;
+            transition: 0.2s ease;
+        }
+
+        .home {
+            background: #2563eb;
+            color: white;
+        }
+
+        .orders {
+            background: #eff6ff;
+            color: #1d4ed8;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .logo {
+            margin-top: 30px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        @media (max-width: 600px) {
+            .success-card {
+                padding: 40px 20px;
+            }
+
+            h1 {
+                font-size: 27px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="success-card">
+
+    <div class="check">
+        ✓
+    </div>
+
+    <h1>Order Placed Successfully! 🎉</h1>
+
+    <p class="message">
+        Thank you for shopping with BookNest!
+        Your books are now being prepared for delivery.
+    </p>
+
+    <div class="order-box">
+
+        <p>Your Order ID</p>
+
+        <div class="order-id" id="orderId">
+            Loading...
+        </div>
+
+        <p>📚 Your order has been saved successfully.</p>
+
+    </div>
+
+    <div class="buttons">
+
+        <a href="index.html" class="btn home">
+            🏠 Continue Shopping
+        </a>
+
+        <a href="cart.html" class="btn orders">
+            🛒 View Cart
+        </a>
+
+    </div>
+
+    <div class="logo">
+        📚 BookNest
+    </div>
+
+</div>
+
+<script>
+
+    const params = new URLSearchParams(window.location.search);
+    const orderId = params.get("id");
+
+    if (orderId) {
+        document.getElementById("orderId").textContent = "BN-" + orderId;
+    } else {
+        document.getElementById("orderId").textContent = "BookNest Order";
+    }
+
+</script>
+
+</body>
+</html>
